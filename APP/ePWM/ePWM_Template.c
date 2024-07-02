@@ -27,9 +27,10 @@ void ConfigEPWMInit1(void){
     SysCtrlRegs.PCLKCR0.bit.TBCLKSYNC = 0;   // 关闭时基时钟
     EDIS;
     // TB时基模块 1000=66.6us
-    EPwm1Regs.TBPRD = 9999; //
-//    EPwm1Regs.TBCTL.bit.CTRMODE = TB_COUNT_UP; // 设置为up计数模式 设定周期为999+1个时钟周期
-    EPwm1Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN; // 设置为up计数模式 设定周期为(999+1)*2个时钟周期
+    //EPwm1Regs.TBPRD = 9999; //
+    //EPwm1Regs.TBCTL.bit.CTRMODE = TB_COUNT_UP; // 设置为up计数模式 设定周期为999+1个时钟周期
+    EPwm1Regs.TBPRD = 10000; //
+    EPwm1Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN; // 设置为updown计数模式 设定周期为(1000)*2个时钟周期
     // 配置比较计数器的值 CC比较模块
     // 当使用向上向下计数模式时 要生成对称的波形 向下计数模式=周期-向上计数
     //  比如 周期为1000 向上计数400的对称值为600
@@ -67,7 +68,11 @@ void ConfigEPWMInit1(void){
        // 延迟计数周期 最大1024 2的10次方
        EPwm1Regs.DBRED=1000;  // 1000个时钟周期6.66us
        EPwm1Regs.DBFED=1000; // 1000个时钟周期6.66us
-       // 极性取反		// DB_ACTV_HI      0x0  AB不反相		// DB_ACTV_LOC     0x1  A反相		// DB_ACTV_HIC     0x2  B反相		// DB_ACTV_LO      0x3  AB均反相
+       // 极性取反
+		// DB_ACTV_HI      0x0  AB不反相
+		// DB_ACTV_LOC     0x1  A反相
+		// DB_ACTV_HIC     0x2  B反相
+		// DB_ACTV_LO      0x3  AB均反相
        EPwm1Regs.DBCTL.bit.POLSEL=DB_ACTV_HIC;
        //DB_FULL_ENABLE AR+BF  11 =3 普中的书印错了
        //DBB_ENABLE  BF        01 =1
